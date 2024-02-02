@@ -1,19 +1,24 @@
 package main
 
 import (
-	. "github.com/onsi/gomega"
 	"testing"
 )
 
-func TestWelcomeMessage(t *testing.T) {
-	g := NewGomegaWithT(t)
+func TestFindByISBN(t *testing.T) {
 
 	// given
-	expected := "Hello world!"
+	p := []Publication{
+		{title: "1984", isbn: "YYY", authors: []string{"A"}, otherNotes: ""},
+		{title: "Cento anni di solitudine", isbn: "xxx", authors: []string{"B"}, otherNotes: ""},
+		{title: "Il sentiero dei nidi di ragno", isbn: "ZzZ", authors: []string{"C"}, otherNotes: ""},
+	}
+	expected := "Cento anni di solitudine"
 
 	// than
-	actual := welcomeMessage()
+	actual := findPublicationByISBN(p, "xxx")
 
 	// that
-	g.Expect(actual).To(Equal(expected))
+	if actual.title != expected {
+		t.Fatalf(`TestFindByISBN fails, expected %s but was %s`, expected, actual.title)
+	}
 }
